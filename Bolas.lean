@@ -4,6 +4,7 @@ Toy proof: 1 drifts, 2 flips, 3 locks
 -/
 import Mathlib.Data.Real.Sqrt
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.Data.Nat.Factorial.Basic
 
 noncomputable section
 
@@ -17,7 +18,23 @@ def V_golden (n : ℕ) (R : ℝ) : ℝ := pi_golden ^ (n/2) / Nat.factorial (n/2
 -- Core: volume ratio = (π'/π)^k
 theorem volume_drift (k : ℕ) (R : ℝ) (hR : R > 0) :
     V_golden (2*k) R / V_euler (2*k) R = (pi_golden / pi_euler) ^ k := by
-  sorry
+  unfold V_golden V_euler pi_euler
+  have hdiv : (2 * k) / 2 = k := Nat.mul_div_cancel_left k (by norm_num : 0 < 2)
+  simp only [hdiv]
+  have hfact : (Nat.factorial k : ℝ) ≠ 0 :=
+    Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero k)
+  have hRpow : R ^ (2 * k) ≠ 0 :=
+    pow_ne_zero _ (ne_of_gt hR)
+  have hpi_pow : (Real.pi : ℝ) ^ k ≠ 0 :=
+    pow_ne_zero _ Real.pi_ne_zero
+  -- non-zero denominators for field_simp
+  have h1 : (↑(Nat.factorial k) : ℝ) ≠ 0 := hfact
+  have h2 : (Real.pi ^ k / ↑(Nat.factorial k) * R ^ (2 * k) : ℝ) ≠ 0 := by
+    apply mul_ne_zero
+    · exact div_ne_zero hpi_pow hfact
+    · exact hRpow
+  field_simp
+  rw [div_pow]
 
 -- 3-mass Bolas minimum: R_cm = 0 locks
 structure Bolas where
@@ -31,8 +48,26 @@ def R_cm (b : Bolas) : ℝ × ℝ × ℝ :=
   let M := b.m 0 + b.m 1 + b.m 2
   (Mx / M, My / M, Mz / M)
 
-theorem three_locks_zero (b : Bolas) (h120 : True) :
-    R_cm b = (0,0,0) := by
-  sorry -- cos0+cos120+cos240=0, sin sum=0, 3 at 120° lock
+-- 120° locked configuration: cos0+cos120+cos240=0, sin sum=0
+-- using algebraic coords: (R,0), (-R/2, R√3/2), (-R/2, -R√3/2)
+def equilateralBolas (R m : ℝ) : Bolas where
+  m := fun _ => m
+  pos := fun i =>
+    match i with
+    | 0 => (R, (0, 0))
+    | 1 => (-R/2, (R * Real.sqrt 3 / 2, 0))
+    | 2 => (-R/2, (-R * Real.sqrt 3 / 2, 0))
+
+theorem three_locks_zero (R m : ℝ) (hm : m ≠ 0) :
+    R_cm (equilateralBolas R m) = (0,0,0) := by
+  unfold R_cm equilateralBolas
+  simp only
+  have hM : m + m + m ≠ 0 := by
+    have : (3 : ℝ) * m ≠ 0 := mul_ne_zero (by norm_num) hm
+    linarith
+  have hMx : m * R + m * (-R / 2) + m * (-R / 2) = 0 := by ring
+  have hMy : m * 0 + m * (R * Real.sqrt 3 / 2) + m * (-(R * Real.sqrt 3 / 2)) = 0 := by ring
+  have hMz : m * 0 + m * 0 + m * 0 = 0 := by ring
+  simp only [hMx, hMy, hMz, zero_div, Prod.mk_zero_zero]
 
 end
