@@ -19,10 +19,9 @@ def sum_tracks : ℝ × ℝ × ℝ :=
 theorem three_tracks_prove_point :
     sum_tracks = (0,0,0) := by
   have h₂ : 2 * Real.pi / 3 = Real.pi - Real.pi / 3 := by ring
-  have h₄ : 4 * Real.pi / 3 = Real.pi + Real.pi / 3 := by ring
+  have h₄ : 2 * Real.pi / 3 * 2 = Real.pi + Real.pi / 3 := by ring
   have h₄' : Real.pi + Real.pi / 3 = Real.pi / 3 + Real.pi := by ring
-  simp only [sum_tracks, track, Fin.val_zero, Fin.val_one, Fin.val_two,
-    Real.cos_zero, Real.sin_zero]
+  simp [sum_tracks, track]
   rw [h₂, h₄, h₄']
   simp [Real.sin_pi_sub, Real.cos_pi_sub, Real.sin_add_pi, Real.cos_add_pi]
 
