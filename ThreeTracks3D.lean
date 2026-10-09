@@ -22,8 +22,9 @@ theorem three_tracks_prove_point :
   have h₄ : 2 * Real.pi / 3 * 2 = Real.pi + Real.pi / 3 := by ring
   have h₄' : Real.pi + Real.pi / 3 = Real.pi / 3 + Real.pi := by ring
   simp [sum_tracks, track]
-  rw [h₂, h₄, h₄']
+  rw [h₄, h₂, h₄']
   simp [Real.sin_pi_sub, Real.cos_pi_sub, Real.sin_add_pi, Real.cos_add_pi]
+  norm_num
 
 -- For any shape, 3 conformal tracks on skin -> center zero
 -- Scale power: 3 locks 1, each extra helper cascades ~4x (φ^3)

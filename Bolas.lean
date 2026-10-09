@@ -34,7 +34,7 @@ theorem volume_drift (k : ℕ) (R : ℝ) (hR : R > 0) :
     · exact div_ne_zero hpi_pow hfact
     · exact hRpow
   field_simp
-  rw [div_pow]
+  ring
 
 -- 3-mass Bolas minimum: R_cm = 0 locks
 structure Bolas where
@@ -63,10 +63,12 @@ theorem three_locks_zero (R m : ℝ) (hm : m ≠ 0) :
   unfold R_cm equilateralBolas
   simp only
   have hM : m + m + m ≠ 0 := by
-    have : (3 : ℝ) * m ≠ 0 := mul_ne_zero (by norm_num) hm
-    linarith
+    have hmul : (3 : ℝ) * m ≠ 0 := mul_ne_zero (by norm_num) hm
+    intro hzero
+    apply hmul
+    nlinarith
   have hMx : m * R + m * (-R / 2) + m * (-R / 2) = 0 := by ring
-  have hMy : m * 0 + m * (R * Real.sqrt 3 / 2) + m * (-(R * Real.sqrt 3 / 2)) = 0 := by ring
+  have hMy : m * 0 + m * (R * Real.sqrt 3 / 2) + m * (-R * Real.sqrt 3 / 2) = 0 := by ring
   have hMz : m * 0 + m * 0 + m * 0 = 0 := by ring
   simp only [hMx, hMy, hMz, zero_div, Prod.mk_zero_zero]
 

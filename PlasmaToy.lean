@@ -32,6 +32,7 @@ theorem three_coil_toy_locks :
     Real.sin_zero, Real.cos_zero]
   rw [h₂, h₄, h₄']
   simp [Real.sin_pi_sub, Real.cos_pi_sub, Real.sin_add_pi, Real.cos_add_pi]
+  norm_num
 
 -- 1 coil = drifts (leaks)
 -- 2 coils = flips (cusp fight)
