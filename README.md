@@ -44,8 +44,16 @@ Lean 4.10.0 + Mathlib. No sorry. No axioms.
 
 ### Build
 
-This checkout does not include a Lake configuration or `lean-toolchain`, so the
-Lake build commands cannot currently run from the repository root.
+Install Lean with elan, then run the following from the repository root:
+
+```sh
+lake update
+lake build
+```
+
+The project uses Lean 4.10.0 and Mathlib 4.10.0. The build compiles each
+top-level Lean source file; `ThreeTracks3D.lean` still contains an unfinished
+proof (`sorry`).
 
 ### Why 3?
 
