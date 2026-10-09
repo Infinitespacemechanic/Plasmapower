@@ -66,10 +66,8 @@ This is the trichotomy that powers the next layers:
 
 ### 5. Build
 
-```bash
-lake update
-lake build
-```
+This checkout does not include a Lake configuration or `lean-toolchain`, so
+these sources cannot currently be built from the repository root.
 
 File: `Plasmapower.lean` — no axioms, no sorry.
 

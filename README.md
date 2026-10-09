@@ -20,7 +20,7 @@ Same chassis |Δ| ≤ 3. Three fates:
 
 - `Bolas.lean` - 3 masses at 120° -> R_cm = 0, volume drift V'_2k/V_2k = (π'/π)^k
 - `PlasmaToy.lean` - 3 coils at 120° -> B_center = (0,0,0), holds fire **[LEAN CHECKED, 0 SORRY]**
-- `ThreeTracks3D.lean` - 3 tracks in 3D lock zero
+- `ThreeTracks3D.lean` - 3 tracks in 3D; proof is unfinished (one `sorry`)
 - `Plasmapower.lean` - Pure math abstraction: drift/flip/lock trichotomy
 
 ### PlasmaToy Proof (Green)
@@ -44,13 +44,8 @@ Lean 4.10.0 + Mathlib. No sorry. No axioms.
 
 ### Build
 
-```bash
-lake update
-lake exe cache get!
-lake build
-```
-
-All files should report `Build completed successfully`.
+This checkout does not include a Lake configuration or `lean-toolchain`, so the
+Lake build commands cannot currently run from the repository root.
 
 ### Why 3?
 
@@ -67,7 +62,7 @@ Toy shows lock, real shows scaling. Let them start scaling the power.
 
 ### Visual
 
-[Plasmapower Trichotomy](assets/images/plasmapower_trichotomy.png)
+[Plasmapower Trichotomy](assets/images/plasmapower_trichotomy.webp)
 
 Blue: Drift → ∞ straight diagonal
 Orange: Flip → 0↔1 zigzag forever
@@ -83,4 +78,4 @@ Order from chaos.
 
 ---
 @rslaakkonen | Infinitespacemechanic/Plasmapower | 2026-10-08
-Lean 4.10.0, Mathlib, 0 sorry
+Lean 4.10.0, Mathlib; `ThreeTracks3D.lean` still has one `sorry`
