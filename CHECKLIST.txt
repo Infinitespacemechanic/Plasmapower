@@ -1,0 +1,13 @@
+Plasmapower v1.0 Package
+- PlasmaToy.lean = GREEN proof, 0 sorry, B_center=0
+- Plasmapower.lean = abstraction drift/flip/lock
+- README.md = GitHub landing
+- PAPER.md = main paper with toy + abstraction
+- assets/images/plasmapower_trichotomy.webp = visual
+
+Steps:
+1. Copy all to Infinitespacemechanic/Plasmapower repo root
+2. git add .
+3. git commit -m "Plasmapower v1.0 - 0 sorries"
+4. git push
+5. Create Release v1.0, upload image as cover
