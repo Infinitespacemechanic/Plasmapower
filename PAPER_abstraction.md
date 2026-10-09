@@ -66,8 +66,9 @@ This is the trichotomy that powers the next layers:
 
 ### 5. Build
 
-This checkout does not include a Lake configuration or `lean-toolchain`, so
-these sources cannot currently be built from the repository root.
+The repository includes a Lake configuration and `lean-toolchain` for Lean
+4.10.0 with Mathlib 4.10.0. From the repository root, run `lake update` and
+`lake build` to compile the Lean sources.
 
 File: `Plasmapower.lean` — no axioms, no sorry.
 

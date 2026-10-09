@@ -3,7 +3,7 @@
 **Author:** Rob Laakkonen / Infinitespacemechanic  
 **Date:** 2026-10-08  
 **Repo:** Infinitespacemechanic/Plasmapower  
-**Status:** Core toy and abstraction proofs are present; `ThreeTracks3D.lean` still has one `sorry`
+**Status:** Core toy, abstraction, and 3D cancellation proofs are present
 **Sequel to:** Infinitespacemechanic/One
 
 ---
@@ -84,9 +84,9 @@ Three tracks:
 
 ### 5. Build
 
-This checkout does not include a Lake configuration or `lean-toolchain`, so
-these sources cannot currently be built from the repository root.
-`ThreeTracks3D.lean` also contains an unfinished proof (`sorry`).
+The repository includes a Lake configuration and `lean-toolchain` for Lean
+4.10.0 with Mathlib 4.10.0. From the repository root, run `lake update` and
+`lake build` to compile the Lean sources.
 
 ### 6. Chain
 

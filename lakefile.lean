@@ -11,6 +11,5 @@ lean_lib Plasmapower where
     `Plasmapower,
     `Bolas,
     `PlasmaToy,
-    `PlasmaToy_fixed_v4,
     `ThreeTracks3D
   ]
