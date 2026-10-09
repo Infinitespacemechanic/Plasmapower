@@ -23,18 +23,12 @@ theorem volume_drift (k : ℕ) (R : ℝ) (hR : R > 0) :
   simp only [hdiv]
   have hfact : (Nat.factorial k : ℝ) ≠ 0 :=
     Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero k)
-  have hRpow : R ^ (2 * k) ≠ 0 :=
-    pow_ne_zero _ (ne_of_gt hR)
   have hpi_pow : (Real.pi : ℝ) ^ k ≠ 0 :=
     pow_ne_zero _ Real.pi_ne_zero
   -- non-zero denominators for field_simp
   have h1 : (↑(Nat.factorial k) : ℝ) ≠ 0 := hfact
-  have h2 : (Real.pi ^ k / ↑(Nat.factorial k) * R ^ (2 * k) : ℝ) ≠ 0 := by
-    apply mul_ne_zero
-    · exact div_ne_zero hpi_pow hfact
-    · exact hRpow
   field_simp
-  rw [div_pow]
+  ring
 
 -- 3-mass Bolas minimum: R_cm = 0 locks
 structure Bolas where
@@ -63,11 +57,17 @@ theorem three_locks_zero (R m : ℝ) (hm : m ≠ 0) :
   unfold R_cm equilateralBolas
   simp only
   have hM : m + m + m ≠ 0 := by
-    have : (3 : ℝ) * m ≠ 0 := mul_ne_zero (by norm_num) hm
-    linarith
+    have h3m : (3 : ℝ) * m ≠ 0 := mul_ne_zero (by norm_num) hm
+    have hsum : m + m + m = 3 * m := by ring
+    rw [hsum]
+    exact h3m
   have hMx : m * R + m * (-R / 2) + m * (-R / 2) = 0 := by ring
-  have hMy : m * 0 + m * (R * Real.sqrt 3 / 2) + m * (-(R * Real.sqrt 3 / 2)) = 0 := by ring
+  have hMy : m * 0 + m * (R * Real.sqrt 3 / 2) + m * (-R * Real.sqrt 3 / 2) = 0 := by ring
   have hMz : m * 0 + m * 0 + m * 0 = 0 := by ring
-  simp only [hMx, hMy, hMz, zero_div, Prod.mk_zero_zero]
+  rw [hMx, hMy, hMz]
+  simp only [Prod.mk.injEq]
+  constructor
+  · field_simp [hM]
+  · constructor <;> field_simp [hM]
 
 end

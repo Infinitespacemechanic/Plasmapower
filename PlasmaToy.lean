@@ -46,6 +46,5 @@ theorem three_coil_toy_locks :
   simp only [one_mul, mul_one, zero_add, add_zero, neg_mul, neg_neg]
   -- now (0 + sin - sin, -1 + 1/2 + 1/2, 0) = (0,0,0)
   ring_nf
-  rfl
 
 end

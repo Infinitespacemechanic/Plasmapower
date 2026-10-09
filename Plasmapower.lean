@@ -37,9 +37,8 @@ theorem orbitDrift_eq (n k : Nat) : orbitDrift n k = k := by
 
 theorem orbitDrift_unbounded : ∀ (B : Nat), ∃ k, orbitDrift 0 k > B := by
   intro B
-  use B + 1
-  simp [orbitDrift_eq]
-  -- B+1 > B
+  refine ⟨B + 1, ?_⟩
+  rw [orbitDrift_eq]
   exact Nat.lt_succ_self B
 
 -- Flip: involutive, period 2, bounded by 1 from start
@@ -69,15 +68,26 @@ theorem stepFlip_involutive (n : Nat) : stepFlip (stepFlip n) = n := by
 theorem orbitFlip_period_two (n k : Nat) : orbitFlip n (k + 2) = orbitFlip n k := by
   simp [orbitFlip, stepFlip_involutive]
 
+theorem flip_bound (n : Nat) : (stepFlip n ≤ n + 1) ∧ (n ≤ stepFlip n + 1) := by
+  unfold stepFlip
+  by_cases h : n % 2 = 0 <;> simp [h] <;> omega
+
 theorem orbitFlip_bounded (n k : Nat) : orbitFlip n k ≤ n + 1 ∧ orbitFlip n k + 1 ≥ n := by
-  induction k with
-  | zero => simp [orbitFlip]; constructor <;> omega
-  | succ k ih =>
-    simp [orbitFlip]
-    unfold stepFlip
-    by_cases h : (orbitFlip n k) % 2 = 0
-    · simp [h]; omega
-    · simp [h]; omega
+  have horbit : orbitFlip n k = n ∨ orbitFlip n k = stepFlip n := by
+    induction k with
+    | zero => exact Or.inl rfl
+    | succ k ih =>
+      simp only [orbitFlip]
+      rcases ih with h | h
+      · rw [h]
+        exact Or.inr rfl
+      · rw [h]
+        exact Or.inl (stepFlip_involutive n)
+  rcases horbit with h | h
+  · rw [h]
+    constructor <;> omega
+  · rw [h]
+    exact flip_bound n
 
 -- Lock: lands on multiple of 3, idempotent
 theorem stepLock_mod_zero (n : Nat) : (stepLock n) % 3 = 0 := by
@@ -87,37 +97,35 @@ theorem stepLock_mod_zero (n : Nat) : (stepLock n) % 3 = 0 := by
   · simp [h]
     have hmod : n % 3 < 3 := Nat.mod_lt n (by omega)
     have : n % 3 = 1 ∨ n % 3 = 2 := by omega
-    rcases this with h1 | h1 <;> simp [h1]
+    rcases this with h1 | h1 <;> simp [h1] <;> omega
 
 theorem stepLock_idempotent (n : Nat) : stepLock (stepLock n) = stepLock n := by
-  have h := stepLock_mod_zero n
-  unfold stepLock
-  simp [h]
+  by_cases hn : n % 3 = 0
+  · simp [stepLock, hn]
+  · have hm := stepLock_mod_zero n
+    simp [stepLock, hn] at hm
+    simp [stepLock, hn, hm]
 
 theorem orbitLock_stable (n k : Nat) (hk : k ≥ 1) : orbitLock n k = stepLock n := by
-  induction k with
+  cases k with
   | zero => omega
-  | succ k ih =>
-    cases k with
-    | zero =>
-      simp [orbitLock]
-    | succ k =>
-      simp [orbitLock]
-      have : orbitLock n (k + 1) = stepLock n := ih (by omega)
-      simp [this, stepLock_idempotent]
+  | succ k =>
+    induction k with
+    | zero => rfl
+    | succ k ih =>
+      change stepLock (orbitLock n (Nat.succ k)) = stepLock n
+      rw [ih (by omega), stepLock_idempotent]
 
 -- Bound checks: |Δ| ≤ 3
 theorem drift_bound (n : Nat) : stepDrift n ≤ n + 3 := by
-  unfold stepDrift; omega
-
-theorem flip_bound (n : Nat) : (stepFlip n ≤ n + 1) ∧ (n ≤ stepFlip n + 1) := by
-  unfold stepFlip
-  by_cases h : n % 2 = 0 <;> simp [h] <;> omega
+  change n + 1 ≤ n + 3
+  omega
 
 theorem lock_bound (n : Nat) : stepLock n ≤ n + 3 := by
   unfold stepLock
   by_cases h : n % 3 = 0
   · simp [h]
+    omega
   · simp [h]
     have : n % 3 = 1 ∨ n % 3 = 2 := by
       have hmod : n % 3 < 3 := Nat.mod_lt n (by omega)

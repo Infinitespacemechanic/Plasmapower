@@ -20,7 +20,7 @@ Same chassis |Δ| ≤ 3. Three fates:
 
 - `Bolas.lean` - 3 masses at 120° -> R_cm = 0, volume drift V'_2k/V_2k = (π'/π)^k
 - `PlasmaToy.lean` - 3 coils at 120° -> B_center = (0,0,0), holds fire **[LEAN CHECKED, 0 SORRY]**
-- `ThreeTracks3D.lean` - 3 tracks in 3D; proof is unfinished (one `sorry`)
+- `ThreeTracks3D.lean` - 3 tracks in 3D; the zero-sum proof is complete
 - `Plasmapower.lean` - Pure math abstraction: drift/flip/lock trichotomy
 
 ### PlasmaToy Proof (Green)
@@ -52,8 +52,7 @@ lake build
 ```
 
 The project uses Lean 4.10.0 and Mathlib 4.10.0. The build compiles each
-top-level Lean source file; `ThreeTracks3D.lean` still contains an unfinished
-proof (`sorry`).
+top-level Lean source file.
 
 ### Why 3?
 
@@ -86,4 +85,4 @@ Order from chaos.
 
 ---
 @rslaakkonen | Infinitespacemechanic/Plasmapower | 2026-10-08
-Lean 4.10.0, Mathlib; `ThreeTracks3D.lean` still has one `sorry`
+Lean 4.10.0, Mathlib; the Lean sources contain no `sorry`
