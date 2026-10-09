@@ -3,7 +3,7 @@
 **Author:** Rob Laakkonen / Infinitespacemechanic  
 **Date:** 2026-10-08  
 **Repo:** Infinitespacemechanic/Plasmapower  
-**Status:** Lean-checked, 0 sorry  
+**Status:** Core toy and abstraction proofs are present; `ThreeTracks3D.lean` still has one `sorry`
 **Sequel to:** Infinitespacemechanic/One
 
 ---
@@ -84,13 +84,9 @@ Three tracks:
 
 ### 5. Build
 
-```
-lake update
-lake exe cache get!
-lake build
-```
-
-PlasmaToy.lean should compile with 0 sorries. Tested on Lean 4.10.0 + Mathlib.
+This checkout does not include a Lake configuration or `lean-toolchain`, so
+these sources cannot currently be built from the repository root.
+`ThreeTracks3D.lean` also contains an unfinished proof (`sorry`).
 
 ### 6. Chain
 
