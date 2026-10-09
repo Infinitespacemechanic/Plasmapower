@@ -18,7 +18,13 @@ def sum_tracks : ℝ × ℝ × ℝ :=
 
 theorem three_tracks_prove_point :
     sum_tracks = (0,0,0) := by
-  sorry -- 3 at 120° lock, stripped to 3D, no starship needed
+  have h₂ : 2 * Real.pi / 3 = Real.pi - Real.pi / 3 := by ring
+  have h₄ : 4 * Real.pi / 3 = Real.pi + Real.pi / 3 := by ring
+  have h₄' : Real.pi + Real.pi / 3 = Real.pi / 3 + Real.pi := by ring
+  simp only [sum_tracks, track, Fin.val_zero, Fin.val_one, Fin.val_two,
+    Real.cos_zero, Real.sin_zero]
+  rw [h₂, h₄, h₄']
+  simp [Real.sin_pi_sub, Real.cos_pi_sub, Real.sin_add_pi, Real.cos_add_pi]
 
 -- For any shape, 3 conformal tracks on skin -> center zero
 -- Scale power: 3 locks 1, each extra helper cascades ~4x (φ^3)

@@ -6,6 +6,8 @@
 - `PlasmaToy.lean` - 3 coils at 120° -> B_center = (0,0,0), holds fire
 - `ThreeTracks3D.lean` - 3 tracks in 3D lock zero
 
+Build the Lean files with `lake build` (Lean 4.19.0 and Mathlib v4.19.0).
+
 1 drifts, 2 flips, 3 locks.
 One more helper is huge relief - cascade ~4x per helper (φ^3).
 

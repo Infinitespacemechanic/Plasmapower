@@ -25,7 +25,13 @@ def three_coil_toy : List Coil :=
 
 theorem three_coil_toy_locks :
     B_at_center three_coil_toy = (0,0,0) := by
-  sorry -- sin0+sin120+sin240=0, cos sum=0
+  have h₂ : 2 * Real.pi / 3 = Real.pi - Real.pi / 3 := by ring
+  have h₄ : 4 * Real.pi / 3 = Real.pi + Real.pi / 3 := by ring
+  have h₄' : Real.pi + Real.pi / 3 = Real.pi / 3 + Real.pi := by ring
+  simp only [B_at_center, three_coil_toy, List.foldl_cons, List.foldl_nil,
+    Real.sin_zero, Real.cos_zero]
+  rw [h₂, h₄, h₄']
+  simp [Real.sin_pi_sub, Real.cos_pi_sub, Real.sin_add_pi, Real.cos_add_pi]
 
 -- 1 coil = drifts (leaks)
 -- 2 coils = flips (cusp fight)
